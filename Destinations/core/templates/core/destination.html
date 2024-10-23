@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations</title>
+    <link rel="stylesheet" href="{% static 'core/styles/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <p class="navtitle">Destinations</p>
+            <div>
+                <a class="navlink" href="{% url 'destinations' %}">Destinations</a>
+                <a class="navlink" href="{% url 'logout' %}">Log Out</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% if error_message %}
+            <div> {{ error_message }} </div>
+        {% endif%}
+        
+        <div class="title">
+            {{ destination.name }}
+        </div>
+        <form method="POST" action="{% url 'destination' destination.id %}">
+            {% csrf_token %}
+
+            <p>Review: {{ destination.review }}</p>
+            <input type="text" id="review" name="review" value="{{ destination.review }}">
+            
+            <p>Rating: {{ destination.rating }}</p>
+            <input type="number" id="rating" name="rating" value="{{ destination.rating }}">
+
+            <label for="share_publicly">Share Publicly</label>
+            <input type="hidden" name="share_publicly" value="False">
+            <input type="checkbox" id="share_publicly" name="share_publicly" value="True" {% if destination.share_publicly %}checked{% endif %}>
+
+            <button type="submit"  class="link">Save Changes</button>
+        </form>
+
+        <form method="POST" action="{% url 'destroy_destination' destination.id %}">
+            {% csrf_token %}
+            <button type="submit"  class="button"> Delete</button>
+        </form>
+    </main>
+
+</body>
+</html>
+

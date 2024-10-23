@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations</title>
+    <link rel="stylesheet" href="{% static 'core/styles/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <p class="navtitle">Destinations</p>
+            <div>
+                <a class="navlink" href="{% url 'destinations' %}">Destinations</a>
+                <a class="navlink" href="{% url 'logout' %}">Log Out</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% if error_message %}
+            <div> {{ error_message }} </div>
+        {% endif%}
+        
+        <div class="title">
+            Personal Destinations
+        </div>
+        <div class="cardList">
+            {% for destination in destinations %}
+                <div class="card">
+                    <p class="cardHeading">{{ destination.name }} {{ destination.rating }}/5</p>
+                    <p class="cardBody"> {{ destination.review }}</p>
+                    <p class="cardName">Author: {{ destination.user.name }}</p>
+                    <a class="edit" href="{% url 'destination' destination.id %}">Edit</a>
+                </div>
+            {% empty %}
+                <div class="card">
+                    <p class="cardHeading">No personal destinations yet</p>
+                </div>
+            {% endfor %}
+        </div>
+        <a class="link" href="{% url 'new_destinations' %}">Add New Destination</a>
+
+    </main>
+</body>
+</html>

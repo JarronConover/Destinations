@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations</title>
+    <link rel="stylesheet" href="{% static 'core/styles/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <p class="navtitle">Destinations</p>
+            <div>
+                {% if is_authenticated %}
+                <a class="navlink" href="{% url 'destinations' %}">Destinations</a>
+                <a class="navlink" href="{% url 'logout' %}">Log Out</a>
+                {% else %}
+                    <a class="navlink" href="{% url 'new_sessions' %}">Sign In</a>
+                    <a class="navlink" href="{% url 'new_user' %}">Create Account</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% if error_message %}
+            <div> {{ error_message }} </div>
+        {% endif%}
+
+        <div class="title">Create Account</div>
+
+        <form method="POST" action="{% url 'users' %}">
+            {% csrf_token %}
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit"  class="link">Create Account</button>
+        </form>
+    </main>
+
+</body>
+</html>
+

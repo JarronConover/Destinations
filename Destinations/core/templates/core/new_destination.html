@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations</title>
+    <link rel="stylesheet" href="{% static 'core/styles/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <p class="navtitle">Destinations</p>
+            <div>
+                <a class="navlink" href="{% url 'destinations' %}">Destinations</a>
+                <a class="navlink" href="{% url 'logout' %}">Log Out</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% if error_message %}
+            <div> {{ error_message }} </div>
+        {% endif%}
+        
+        <div class="title">New Destination</div>
+        <form method="POST" action="{% url 'destinations' %}">
+            {% csrf_token %}
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name">
+
+            <label for="review">Review</label>
+            <input type="text" id="review" name="review"> 
+
+            <label for="rating">Rating</label>
+            <input type="number" id="rating" name="rating">
+
+            <label for="share_publicly">Share Publicly</label>
+            <input type="hidden" name="share_publicly" value="False">
+            <input type="checkbox" id="share_publicly" name="share_publicly" value="True" {% if destination.share_publicly %}checked{% endif %}>
+
+            <button class="link" type="submit">Create Destination</button>
+        </form>
+    </main>
+
+</body>
+</html>
